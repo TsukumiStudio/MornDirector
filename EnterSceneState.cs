@@ -1,3 +1,4 @@
+using System;
 using Arbor;
 using Cysharp.Threading.Tasks;
 using MornEditor;
@@ -14,11 +15,18 @@ namespace MornLib
 
         public override async void OnStateBegin()
         {
-            var ct = _isExecuteAsIsolated ? MornApp.QuitToken : CancellationTokenOnEnd;
-            var taskA = MornTransitionService.ClearAsync(ct);
-            var taskB = _volumeCore.FadeAsync(MornDirectorGlobal.I.CreateFadeInInfo(ct));
-            await UniTask.WhenAll(taskA, taskB);
-            Transition(_nextState);
+            try
+            {
+                var ct = _isExecuteAsIsolated ? MornApp.QuitToken : CancellationTokenOnEnd;
+                var taskA = MornTransitionService.ClearAsync(ct);
+                var taskB = _volumeCore.FadeAsync(MornDirectorGlobal.I.CreateFadeInInfo(ct));
+                await UniTask.WhenAll(taskA, taskB);
+                Transition(_nextState);
+            }
+            catch (OperationCanceledException)
+            {
+                // 無視
+            }
         }
     }
 }
