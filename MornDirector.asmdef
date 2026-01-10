@@ -1,6 +1,6 @@
 {
     "name": "MornDirector",
-    "rootNamespace": "MornDirector",
+    "rootNamespace": "MornLib",
     "references": [
         "GUID:e623bc35d2e040d4d81ac786178e2a6a",
         "GUID:560b04d1a97f54a4e82edc0cbbb69285",

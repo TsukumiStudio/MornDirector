@@ -1,32 +1,24 @@
 using Arbor;
 using Cysharp.Threading.Tasks;
-using MornSound;
-using MornTransition;
-using MornUtil;
+using MornEditor;
 using UnityEngine;
 using VContainer;
 
-namespace MornDirector
+namespace MornLib
 {
     public class ExitSceneState : StateBehaviour
     {
         [Inject] private MornTransitionCtrl _transitionCtrl;
         [Inject] private MornSoundVolumeCore _volumeCore;
-        [SerializeField] private bool _isExecuteAsIsolated;
-        [SerializeField] private MornTransitionType _transitionType;
+        [SerializeField, Label("独立動作")] private bool _isExecuteAsIsolated;
+        [SerializeField, Label("トランジション")] private MornTransitionType _transitionType;
         [SerializeField] private StateLink _nextState;
 
         public override async void OnStateBegin()
         {
             var ct = _isExecuteAsIsolated ? MornApp.QuitToken : CancellationTokenOnEnd;
             var taskA = _transitionCtrl.FillAsync(_transitionType, ct);
-            var taskB = _volumeCore.FadeAsync(
-                new MornSoundVolumeFadeInfo
-                {
-                    SoundVolumeType = MornDirectorGlobal.I.VolumeFadeType,
-                    IsFadeIn = false,
-                    Duration = MornDirectorGlobal.I.VolumeFadeOutDuration,
-                });
+            var taskB = _volumeCore.FadeAsync(MornDirectorGlobal.I.CreateFadeOutInfo(ct));
             await UniTask.WhenAll(taskA, taskB);
             Transition(_nextState);
         }
