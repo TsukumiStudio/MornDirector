@@ -18,7 +18,7 @@ namespace MornLib
             try
             {
                 var ct = _isExecuteAsIsolated ? MornApp.QuitToken : CancellationTokenOnEnd;
-                var taskA = MornTransitionService.ClearAsync(ct);
+                var taskA = MornTransitionCore.ClearAsync(ct);
                 var taskB = _volumeCore.FadeAsync(MornDirectorGlobal.I.CreateFadeInInfo(ct));
                 await UniTask.WhenAll(taskA, taskB);
                 Transition(_nextState);

@@ -7,7 +7,7 @@ namespace MornLib
     [CreateAssetMenu(fileName = nameof(MornDirectorGlobal), menuName = nameof(MornDirectorGlobal))]
     public sealed class MornDirectorGlobal : MornGlobalBase<MornDirectorGlobal>
     {
-        public override string ModuleName => "MornDirector";
+        protected override string ModuleName => "MornDirector";
         [Header("音量")]
         [Label("音量フェードタイプ"), SerializeField] private MornSoundVolumeType _volumeFadeType;
         [Label("音量フェードイン(s)"), SerializeField] private float _volumeFadeInDuration = 0.5f;
