@@ -1,5 +1,4 @@
 using System.Threading;
-using MornEditor;
 using UnityEngine;
 
 namespace MornLib
@@ -9,18 +8,34 @@ namespace MornLib
     {
         protected override string ModuleName => "MornDirector";
         [Header("音量")]
-        [Label("音量フェードタイプ"), SerializeField] private MornSoundVolumeType _volumeFadeType;
-        [Label("音量フェードイン(s)"), SerializeField] private float _volumeFadeInDuration = 0.5f;
-        [Label("音量フェードイン(s)"), SerializeField] private float _volumeFadeOutDuration = 0.5f;
+        [Label("フェードタイプ"), SerializeField] private MornSoundVolumeType _volumeFadeType;
+        [Label("フェードイン(s)"), SerializeField] private float _volumeFadeInDuration = 0.5f;
+        [Label("フェードインEase"), SerializeField] private MornEaseType _volumeFadeInEase = MornEaseType.EaseInQuad;
+        [Label("フェードアウト(s)"), SerializeField] private float _volumeFadeOutDuration = 0.5f;
+        [Label("フェードアウトEase"), SerializeField] private MornEaseType _volumeFadeOutEase = MornEaseType.EaseInQuad;
 
         public MornSoundVolumeFadeInfo CreateFadeInInfo(CancellationToken ct)
         {
-            return new MornSoundVolumeFadeInfo { SoundVolumeType = _volumeFadeType, IsFadeIn = true, Duration = _volumeFadeInDuration, CancellationToken = ct };
+            return new MornSoundVolumeFadeInfo
+            {
+                SoundVolumeType = _volumeFadeType,
+                IsFadeIn = true,
+                Duration = _volumeFadeInDuration,
+                EaseType = _volumeFadeInEase,
+                CancellationToken = ct,
+            };
         }
 
         public MornSoundVolumeFadeInfo CreateFadeOutInfo(CancellationToken ct)
         {
-            return new MornSoundVolumeFadeInfo { SoundVolumeType = _volumeFadeType, IsFadeIn = false, Duration = _volumeFadeOutDuration, CancellationToken = ct };
+            return new MornSoundVolumeFadeInfo
+            {
+                SoundVolumeType = _volumeFadeType,
+                IsFadeIn = false,
+                Duration = _volumeFadeOutDuration,
+                EaseType = _volumeFadeOutEase,
+                CancellationToken = ct,
+            };
         }
     }
 }
