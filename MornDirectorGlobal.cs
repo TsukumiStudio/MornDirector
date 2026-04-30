@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MornLib
 {
-    [CreateAssetMenu(fileName = nameof(MornDirectorGlobal), menuName = nameof(MornDirectorGlobal))]
+    [CreateAssetMenu(fileName = nameof(MornDirectorGlobal), menuName = "Morn/" + nameof(MornDirectorGlobal))]
     public sealed class MornDirectorGlobal : MornGlobalBase<MornDirectorGlobal>
     {
         protected override string ModuleName => "MornDirector";
