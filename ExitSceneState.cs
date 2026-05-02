@@ -6,6 +6,7 @@ using VContainer;
 
 namespace MornLib
 {
+    [Serializable]
     public class ExitSceneState : StateBehaviour
     {
         [Inject] private MornSoundVolumeCore _volumeCore;
