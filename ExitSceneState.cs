@@ -4,7 +4,7 @@ using Arbor;
 #elif USE_MORNSTATE
 using MornLib;
 using StateBehaviour = MornLib.MornStateBehaviour;
-using StateLink = MornLib.Connection;
+using StateLink = MornLib.StateLink;
 #endif
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -15,9 +15,8 @@ namespace MornLib
     [Serializable]
     public class ExitSceneState : StateBehaviour
     {
-        [Inject] private MornSoundVolumeCore _volumeCore;
         [SerializeField, Label("独立動作")] private bool _isExecuteAsIsolated;
-        [SerializeField, Label("トランジション")] private MornTransitionType _transitionType;
+        [SerializeField, NoLabel] private MornTransitionType _transitionType;
         [SerializeField] private StateLink _onComplete;
 
         public override async void OnStateBegin()
@@ -26,7 +25,7 @@ namespace MornLib
             {
                 var ct = _isExecuteAsIsolated ? MornApp.QuitToken : CancellationTokenOnEnd;
                 var taskA = MornTransitionCore.FillAsync(_transitionType, ct);
-                var taskB = _volumeCore.FadeAsync(MornDirectorGlobal.I.CreateFadeOutInfo(ct));
+                var taskB = MornSoundService.I.FadeAsync(MornDirectorGlobal.I.CreateFadeOutInfo(ct));
                 await UniTask.WhenAll(taskA, taskB);
                 Transition(_onComplete);
             }

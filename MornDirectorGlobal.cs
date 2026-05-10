@@ -8,15 +8,15 @@ namespace MornLib
     {
         protected override string ModuleName => "MornDirector";
         [Header("音量")]
-        [Label("フェードタイプ"), SerializeField] private MornSoundVolumeType _volumeFadeType;
+        [Label("フェードタイプ"), SerializeField] private MornSoundMixerType _volumeFadeType;
         [Label("フェードイン(s)"), SerializeField] private float _volumeFadeInDuration = 0.5f;
         [Label("フェードインEase"), SerializeField] private MornEaseType _volumeFadeInEase = MornEaseType.EaseInQuad;
         [Label("フェードアウト(s)"), SerializeField] private float _volumeFadeOutDuration = 0.5f;
         [Label("フェードアウトEase"), SerializeField] private MornEaseType _volumeFadeOutEase = MornEaseType.EaseInQuad;
 
-        public MornSoundVolumeFadeInfo CreateFadeInInfo(CancellationToken ct)
+        public MornSoundFadeInfo CreateFadeInInfo(CancellationToken ct)
         {
-            return new MornSoundVolumeFadeInfo
+            return new MornSoundFadeInfo
             {
                 SoundVolumeType = _volumeFadeType,
                 IsFadeIn = true,
@@ -26,9 +26,9 @@ namespace MornLib
             };
         }
 
-        public MornSoundVolumeFadeInfo CreateFadeOutInfo(CancellationToken ct)
+        public MornSoundFadeInfo CreateFadeOutInfo(CancellationToken ct)
         {
-            return new MornSoundVolumeFadeInfo
+            return new MornSoundFadeInfo
             {
                 SoundVolumeType = _volumeFadeType,
                 IsFadeIn = false,
